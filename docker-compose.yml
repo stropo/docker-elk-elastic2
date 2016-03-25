@@ -6,7 +6,7 @@ redis:
     - ./redis/config/redis.conf:/usr/local/etc/redis/redis.conf
 elasticsearch:
   image: elasticsearch:2.2
-  command: elasticsearch -Des.network.host=0.0.0.0
+  command: elasticsearch -Des.network.host=0.0.0.0 -Des.discovery.zen.ping.multicast.enabled=false
   ports:
     - "9200:9200"
     - "9300:9300"
