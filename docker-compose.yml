@@ -1,18 +1,32 @@
+redis:
+  image: redis:3.0
+  ports:
+    - "6379:6379"
+  volumes:
+    - ./redis/config/redis.conf:/usr/local/etc/redis/redis.conf
 elasticsearch:
-  image: elasticsearch:latest
+  image: elasticsearch:2.2
   command: elasticsearch -Des.network.host=0.0.0.0
   ports:
     - "9200:9200"
     - "9300:9300"
+  volumes:
+    - /storage/docker/elasticsearch:/usr/share/elasticsearch/data
+  environment:
+    - ES_HEAP_SIZE=8g
 logstash:
   image: logstash:latest
   command: logstash -f /etc/logstash/conf.d/logstash.conf
   volumes:
     - ./logstash/config:/etc/logstash/conf.d
+    - ./logstash/templates:/etc/logstash/templates
   ports:
     - "5000:5000"
   links:
     - elasticsearch
+    - redis
+  environment:
+    - LS_HEAP_SIZE=2g
 kibana:
   build: kibana/
   volumes:
