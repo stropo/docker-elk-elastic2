@@ -1,5 +1,6 @@
 redis:
   image: redis:3.0
+  command: redis-server /usr/local/etc/redis/redis.conf
   ports:
     - "6379:6379"
   volumes:
