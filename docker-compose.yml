@@ -6,12 +6,13 @@ redis:
     - ./redis/config/redis.conf:/usr/local/etc/redis/redis.conf
 elasticsearch:
   image: elasticsearch:2.2
-  command: elasticsearch -Des.network.host=0.0.0.0 -Des.discovery.zen.ping.multicast.enabled=false
+  command: elasticsearch -Des.network.host=0.0.0.0
   ports:
     - "9200:9200"
     - "9300:9300"
   volumes:
-    - /storage/docker/elasticsearch:/usr/share/elasticsearch/data
+    - ./elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+    - /storage/logstash/elasticsearch:/usr/share/elasticsearch/data
   environment:
     - ES_HEAP_SIZE=8g
 logstash:
